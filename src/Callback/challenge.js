@@ -25,7 +25,7 @@ function ObtenerDatos(urlApi, callback) {
                 //si la respuesta de la API no es exitosa se captura el error
             } else {
                 //se inicializa un objeto de tipo Error donde se le envian como argumentos un mensaje de error y la URL de la API para conocer en dónde se produjo el error
-                const error = new Error("Error" + urlApi);
+                const error = new Error("Error " + urlApi);
                 //se ejecuta el callback recibiendo como argumentos el error y null debido a que no se pudo obtener el objeto
                 return callback(error, null);
             }
@@ -58,6 +58,26 @@ ObtenerDatos(`${API}/products`, function (error1, data1) {
             console.log(data2.title);
             //Se imprime el nombre de la categoria a la que pertenece el objeto que se consultó en la seguna invocación del método.
             console.log(data3.name);
+            console.log(data3.id);
+        });
+    });
+    ObtenerDatos(`${API}/products/${data1[1].id}`, function (error2, data2) {
+        //si en este punto se identifica un error se imprime en consola y se detiene el proceso
+        if (error2) return console.error(error2);
+        //Se invoca nuevamente la funcion ObtenerDatos con el fin de acceder a la categoria, se envían como parametros la url de la API con la concatenación de 'Categories' 
+        //y el atributo Id de categoria del objeto data2 de la función anterior en este caso puntual se hace uso de Optional Caining el cual hace una evalucación de las 
+        //propiedades de un objeto y en vez de arrojar un error devuelve undefined en caso que la propiedad no exista o sea null.
+        //igual que las anteriores e envia una funcion anonima con 2 argumentos, un objeto Error y un objeto de datos
+        ObtenerDatos(`${API}/categories/${data2?.category?.id}`, function (error3, data3) {
+            //se valida si existe error, en caso de que exista se detiene el proceso y se imprime el error
+            if (error3) return console.error(error3);
+            //Se imprime el objeto en la posición 1 del arreglo de los objetos obtenidos en el metodo invocado inicialmente
+            console.log(data1[1]);
+            //Se imprime el titulo del objeto que se consultó en la seguna invocación de la función
+            console.log(data2.title);
+            //Se imprime el nombre de la categoria a la que pertenece el objeto que se consultó en la seguna invocación del método.
+            console.log(data3.name);
+            console.log(data3.id);
         });
     });
 });
