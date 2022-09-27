@@ -15,7 +15,7 @@ function postData(urlApi, data) {
 }
 
 const data = {
-    "title": "212",
+    "title": "LilEZ",
     "price": 212,
     "description": "A description",
     "categoryId": 1,
